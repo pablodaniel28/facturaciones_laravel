@@ -13,24 +13,23 @@
                         </a>
                         <input id="searchInput" type="text"
                             class="px-3 py-1 border rounded-md w-full sm:w-auto dark:bg-gray-800 dark:text-white text-xs font-medium mr-2"
-                            style="font-size: 12px;" placeholder="Buscar...">
+                            style="font-size: 12px;" placeholder="Buscar..." onkeyup="searchTable()">
 
                     </div>
                     <!-- Grupo 2: Exportar y importar -->
                     <div class="flex flex-2 items-center">
                         <a href="{{ route('productos.export') }}"
                             class="flex-shrink-0 bg-cyan-500 hover:bg-cyan-700 dark:bg-gray-700 dark:hover:bg-gray-600 text-white dark:text-gray-200 font-semibold px-1.5 py-1 rounded-md text-xs sm:text-xs ml-1 mr-1">
-                            <i class="fas fa-plus mr-1"></i> Exportar
+                            <i class="fas fa-file-excel mr-1"></i> Exportar
                         </a>
                         <a id="modal-toggle-button4"
                             class="flex-shrink-0 bg-cyan-500 hover:bg-cyan-700 dark:bg-gray-700 dark:hover:bg-gray-600 text-white dark:text-gray-200 font-semibold px-1.5 py-1 rounded-md text-xs sm:text-xs ml-1 mr-1">
-                            <i class="fas fa-plus mr-1"></i> Importar
+                            <i class="fas fa-file-excel mr-1"></i> Importar
                         </a>
                         <a href="{{ route('productos.pdf') }}" target="_blank"
                             class="flex-shrink-0 bg-cyan-500 hover:bg-cyan-700 dark:bg-gray-700 dark:hover:bg-gray-600 text-white dark:text-gray-200 font-semibold px-1.5 py-1 rounded-md text-xs sm:text-xs ml-1 mr-1">
-                            <i class="fas fa-plus mr-1"></i> PDF
+                            <i class="fas fa-file-pdf mr-1"></i> PDF
                         </a>
-
                     </div>
                 </div>
 
@@ -172,7 +171,7 @@
                 <!-- Table -->
                 <div class="overflow-x-auto">
                     <table class="table-auto w-full">
-                        <span class="font-semibold text-slate-500 dark:text-slate-50  ">Productos</span>
+                        <span class="font-semibold text-slate-500 dark:text-slate-50">Productos</span>
                         <!-- Table header -->
                         <thead
                             class="text-xs font-semibold uppercase text-slate-400 dark:text-slate-100 bg-slate-50 dark:bg-slate-700 dark:bg-opacity-50">
@@ -204,8 +203,8 @@
                             </tr>
                         </thead>
                         <!-- Table body -->
-                        @foreach ($productos as $p)
-                            <tbody class="text-xs divide-y divide-slate-100 dark:divide-slate-700">
+                        <tbody id="searchTableBody" class="text-xs divide-y divide-slate-100 dark:divide-slate-700">
+                            @foreach ($productos as $p)
                                 <tr>
                                     <td class="p-2 whitespace-nowrap">
                                         <div class="text-left font-medium">{{ $p->id }}</div>
@@ -269,8 +268,8 @@
                                         </div>
                                     </td>
                                 </tr>
-                            </tbody>
-                        @endforeach
+                            @endforeach
+                        </tbody>
                     </table>
                 </div>
             </div>
@@ -279,6 +278,35 @@
     </div>
 
     @push('scripts')
+        <script>
+            
+            function searchTable() {
+                var input, filter, table, tbody, tr, td, i, j, txtValue;
+                input = document.getElementById("searchInput");
+                filter = input.value.toUpperCase();
+                table = document.querySelector("table");
+                tbody = document.getElementById("searchTableBody");
+                tr = tbody.getElementsByTagName("tr");
+
+                for (i = 0; i < tr.length; i++) {
+                    tr[i].style.display = "none";
+                    td = tr[i].getElementsByTagName("td");
+
+                    for (j = 0; j < td.length; j++) {
+                        if (td[j]) {
+                            txtValue = td[j].textContent || td[j].innerText;
+                            if (txtValue.toUpperCase().indexOf(filter) > -1) {
+                                tr[i].style.display = "";
+                                break;
+                            }
+                        }
+                    }
+                }
+            }
+
+
+        </script>
+
         <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css" rel="stylesheet">
         <script>
             // JavaScript para abrir y cerrar el primer modal
