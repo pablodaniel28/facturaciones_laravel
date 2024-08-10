@@ -1,9 +1,9 @@
 <x-app-layout>
-    <div class="px-2 sm:px-6 lg:px-8 py-4 w-full max-w-10xl mx-auto">
+    <div class="px-2 sm:px-6 lg:px-8 py-4 w-full max-w-10x2 mx-auto">
         <div
-            class="col-span-full xl:col-span-6 bg-white dark:bg-slate-800 shadow-lg rounded-sm border border-slate-200 dark:border-slate-700">
+            class="col-span-full xl:col-span-6 bg-white dark:bg-slate-800 shadow-lg rounded-sm border border-slate-100 dark:border-slate-700">
             <header
-                class="px-5 py-4 border-b border-slate-100 dark:border-slate-900 flex flex-col sm:flex-row items-center">
+                class="px-5 py-4 border-b border-blue-100 dark:border-slate-900 flex flex-col sm:flex-row items-center">
                 <div class="flex flex-col sm:flex-row items-center">
                     <!-- Grupo 1: Añadir, input de búsqueda y botón de búsqueda -->
                     <div class="flex flex-1 items-center mb-2 sm:mb-0">
@@ -60,36 +60,42 @@
                             <form action="{{ route('productos.store') }}" method="POST" enctype="multipart/form-data">
                                 @csrf
                                 <div class="p-4 md:p-5">
-                                    <div>
+                                    <div class="mb-4">
                                         <label for="nombre"
                                             class="block text-sm font-medium text-gray-700 dark:text-gray-300">Nombre</label>
                                         <input type="text" name="nombre" id="nombre"
-                                            class="mt-1 p-2 block w-full shadow-sm focus:ring-indigo-500 focus:border-indigo-500 border-gray-300 dark:border-gray-600 dark:bg-gray-800 dark:text-white rounded-md">
+                                            class="p-2 block w-full shadow-sm focus:ring-indigo-500 focus:border-indigo-500 border-gray-300 dark:border-gray-600 dark:bg-gray-800 dark:text-white rounded-md">
                                     </div>
                                     <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
                                         <div>
                                             <label for="precio"
                                                 class="block text-sm font-medium text-gray-700 dark:text-gray-300">Precio</label>
-                                            <input type="text" name="precio" id="precio"
-                                                class="mt-1 p-2 block w-full shadow-sm focus:ring-indigo-500 focus:border-indigo-500 border-gray-300 dark:border-gray-600 dark:bg-gray-800 dark:text-white rounded-md">
+                                            <input type="number" name="precio" id="precio"
+                                                class="p-2 block w-full shadow-sm focus:ring-indigo-500 focus:border-indigo-500 border-gray-300 dark:border-gray-600 dark:bg-gray-800 dark:text-white rounded-md">
                                         </div>
                                         <div>
                                             <label for="cantidad"
                                                 class="block text-sm font-medium text-gray-700 dark:text-gray-300">Cantidad</label>
-                                            <input type="text" name="cantidad" id="cantidad"
-                                                class="mt-1 p-2 block w-full shadow-sm focus:ring-indigo-500 focus:border-indigo-500 border-gray-300 dark:border-gray-600 dark:bg-gray-800 dark:text-white rounded-md">
+                                            <input type="number" name="cantidad" id="cantidad"
+                                                class="p-2 block w-full shadow-sm focus:ring-indigo-500 focus:border-indigo-500 border-gray-300 dark:border-gray-600 dark:bg-gray-800 dark:text-white rounded-md">
                                         </div>
                                     </div>
                                     <div class="mb-4">
                                         <label for="multimedia"
                                             class="block text-sm font-medium text-gray-700 dark:text-gray-300">Multimedia</label>
                                         <input type="file" name="multimedia" id="multimedia"
-                                            class="mt-1 p-2 block w-full shadow-sm focus:ring-indigo-500 focus:border-indigo-500 border-gray-300 dark:border-gray-600 dark:bg-gray-800 dark:text-white rounded-md">
+                                            class="p-2 block w-full shadow-sm focus:ring-indigo-500 focus:border-indigo-500 border-blue-300 dark:border-blue-600 dark:bg-gray-800 dark:text-white rounded-md">
                                     </div>
                                     <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
                                         <div>
                                             <label for="estado"
-                                                class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Estado</label>
+                                                class="block  text-sm font-medium text-gray-900 dark:text-white">Codigo</label>
+                                            <input type="text" name="codigo" id="codigo"
+                                                class="p-2 block w-full shadow-sm focus:ring-indigo-500 focus:border-indigo-500 border-gray-300 dark:border-gray-600 dark:bg-gray-800 dark:text-white rounded-md">
+                                        </div>
+                                        <div>
+                                            <label for="estado"
+                                                class="block  text-sm font-medium text-gray-900 dark:text-white">Estado</label>
                                             <select name="estado" id="estado"
                                                 class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:bg-gray-600 dark:border-gray-500 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500"
                                                 required>
@@ -99,9 +105,10 @@
                                         </div>
                                     </div>
                                     <div class="flex items-center justify-end mt-4">
-                                        <x-button class="ml-4">
-                                            {{ __('Guardar') }}
-                                        </x-button>
+                                        <button type="submit"
+                                            class="text-white inline-flex items-center bg-cyan-600 hover:bg-cyan-800 focus:ring-4 focus:outline-none focus:ring-cyan-300 font-medium rounded-lg text-xs px-4 py-1.5 text-center dark:bg-slate-600 dark:hover:bg-slate-500 dark:focus:ring-cyan-800">
+                                            Añadir
+                                        </button>
                                     </div>
                                 </div>
                             </form>
@@ -139,14 +146,14 @@
                             </div>
                             <!-- Modal body -->
                             <div class="mt-2">
-                                <form method="POST" action="" enctype="multipart/form-data"
+                                <form method="POST" action="{{route('productos.import')}}" enctype="multipart/form-data"
                                     class="flex-shrink-0 ml-1 mb-4">
                                     @csrf
                                     <input type="file" name="documento"
                                         class="bg-cyan-500 hover:bg-cyan-700 dark:bg-slate-600 dark:hover:bg-slate-500 text-white dark:text-slate-200 font-semibold px-1.5 py-1 rounded-md text-xs sm:text-xs mb-4"
                                         style="font-size: 12px;" />
                                     <button type="submit"
-                                        class="bg-cyan-500 hover:bg-cyan-700 dark:bg-slate-600 dark:hover:bg-slate-500 text-white dark:text-gray-200 font-semibold px-1.5 py-1.5 rounded-md text-xs sm:text-xs ml-1">
+                                        class="bg-cyan-500 hover:bg-cyan-800 dark:bg-slate-600 dark:hover:bg-slate-500 text-white dark:text-gray-200 font-semibold px-1.5 py-1.5 rounded-md text-xs sm:text-xs ml-1">
                                         <i class="fas fa-plus mr-1 "></i>Importar
                                     </button>
                                 </form>
@@ -170,6 +177,9 @@
                                 </th>
                                 <th class="p-2 whitespace-nowrap">
                                     <div class="font-semibold text-left">Img</div>
+                                </th>
+                                <th class="p-2 whitespace-nowrap">
+                                    <div class="font-semibold text-left">Codigo</div>
                                 </th>
                                 <th class="p-2 whitespace-nowrap">
                                     <div class="font-semibold text-left">Nombre</div>
@@ -207,7 +217,9 @@
                                             </div>
                                         </div>
                                     </td>
-
+                                    <td class="p-2 whitespace-nowrap">
+                                        <div class="text-left font-medium">{{ $p->codigo }}</div>
+                                    </td>
                                     <td class="p-2 whitespace-nowrap">
                                         <div class="text-left font-medium">{{ $p->nombre }}</div>
                                     </td>

@@ -13,6 +13,7 @@ class producto extends Model
         'precio',
         'cantidad',
         'estado',
+        'codigo',
         'img',
     ];
 }

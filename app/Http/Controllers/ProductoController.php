@@ -2,9 +2,10 @@
 
 namespace App\Http\Controllers;
 
+use App\Imports\Productoimport;
 use App\Models\producto;
 use Illuminate\Http\Request;
-
+use Maatwebsite\Excel\Facades\Excel;
 class ProductoController extends Controller
 {
     /**
@@ -29,10 +30,18 @@ class ProductoController extends Controller
      * Store a newly created resource in storage.
      */
 
+    public function import(Request $request)
+    {
+        $file = $request->file('documento');
+        Excel::import(new Productoimport, $file);
+        return back()->with('status', 'Productos importados con éxito');
+    }
+
     public function store(Request $request)
     {
         // Validar la solicitud
         $validatedData = $request->validate([
+            'codigo' => 'required|string|max:155',
             'nombre' => 'required|string|max:255',
             'precio' => 'required|numeric|min:0',
             'cantidad' => 'required|integer|min:0',
@@ -59,6 +68,7 @@ class ProductoController extends Controller
 
         // Crear un nuevo producto con los datos validados
         $producto = new Producto([
+            'codigo' => $validatedData['codigo'],
             'nombre' => $validatedData['nombre'],
             'precio' => $validatedData['precio'],
             'cantidad' => $validatedData['cantidad'],

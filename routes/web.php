@@ -43,7 +43,11 @@ Route::middleware(['auth:sanctum', 'verified'])->group(function () {
 
     route::resource('usuarios', UsuariosController::class);
     route::resource('services', ServicesController::class);
+
+
     route::resource('productos', ProductoController::class);
+    Route::post('productos/import', [ProductoController::class, 'import'])->name('productos.import');
+
     route::resource('clientes', ClienteController::class);
 
 
