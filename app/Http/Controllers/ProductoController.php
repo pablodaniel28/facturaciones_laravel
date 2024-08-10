@@ -8,6 +8,7 @@ use App\Models\producto;
 use Illuminate\Http\Request;
 use Maatwebsite\Excel\Facades\Excel;
 use Barryvdh\DomPDF\Facade\Pdf;
+use Illuminate\Support\Facades\Storage;
 
 class ProductoController extends Controller
 {
@@ -134,24 +135,76 @@ class ProductoController extends Controller
     /**
      * Show the form for editing the specified resource.
      */
-    public function edit(producto $producto)
+    public function edit(Producto $producto)
     {
-        //
+        // Pasar el producto a la vista
+        return view('producto.editar', ['producto' => $producto]);
     }
 
     /**
      * Update the specified resource in storage.
      */
-    public function update(Request $request, producto $producto)
+    public function update(Request $request, Producto $producto)
     {
-        //
+        // Validar la entrada del formulario
+        $validated = $request->validate([
+            'codigo' => 'required|string|max:255',
+            'nombre' => 'required|string|max:255',
+            'precio' => 'required|numeric',
+            'cantidad' => 'required|integer',
+            'estado' => 'required|in:activo,desactivado',
+            'multimedia' => 'nullable|image|mimes:jpeg,png,jpg,gif|max:2048', // Validación de la imagen
+        ]);
+
+        // Actualizar los datos del producto
+        $producto->update([
+            'codigo' => $validated['codigo'],
+            'nombre' => $validated['nombre'],
+            'precio' => $validated['precio'],
+            'cantidad' => $validated['cantidad'],
+            'estado' => $validated['estado'],
+        ]);
+
+        // Verificar si se ha subido un archivo
+        if ($request->hasFile('multimedia')) {
+            // Eliminar la imagen anterior si existe
+            if ($producto->img) {
+                Storage::delete('public/multimedia/' . $producto->img);
+            }
+
+            // Guardar la nueva imagen
+            $file = $request->file('multimedia');
+            $imagePath = $file->store('public/multimedia');
+
+            // Extraer el nombre del archivo
+            $fileName = basename($imagePath);
+
+            // Actualizar el path de la imagen en el producto
+            $producto->update(['img' => $fileName]);
+        }
+
+        // Redirigir a la lista de productos con un mensaje de éxito
+        return redirect()->route('productos.index')->with('success', 'Producto actualizado con éxito.');
     }
+
+
 
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy(producto $producto)
+    public function destroy(Producto $producto)
     {
-        //
+        // Verificar si existe una imagen asociada
+        if ($producto->img) {
+            // Eliminar la imagen del almacenamiento
+            Storage::delete('public/multimedia/' . $producto->img);
+        }
+
+        // Eliminar el producto de la base de datos
+        $producto->delete();
+
+        // Redirigir a la lista de productos con un mensaje de éxito
+        return redirect()->route('productos.index')->with('success', 'Producto eliminado con éxito.');
     }
+
 }
