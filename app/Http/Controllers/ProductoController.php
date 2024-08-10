@@ -2,10 +2,13 @@
 
 namespace App\Http\Controllers;
 
+use App\Exports\Productoexport;
 use App\Imports\Productoimport;
 use App\Models\producto;
 use Illuminate\Http\Request;
 use Maatwebsite\Excel\Facades\Excel;
+use Barryvdh\DomPDF\Facade\Pdf;
+
 class ProductoController extends Controller
 {
     /**
@@ -29,12 +32,42 @@ class ProductoController extends Controller
     /**
      * Store a newly created resource in storage.
      */
+    public function base64EncodeImage($path)
+    {
+        $imgData = file_get_contents(public_path($path));
+        return 'data:image/jpeg;base64,' . base64_encode($imgData);
+    }
+
+    // En el controlador
+    public function exportPdf()
+    {
+        // Obtener todos los productos
+        $productos = Producto::all();
+
+        // Pasar la función para convertir imágenes a Base64 a la vista
+        $pdf = Pdf::loadView('producto.pdf', [
+            'productos' => $productos,
+            'base64EncodeImage' => function ($path) {
+                $imgData = file_get_contents(public_path($path));
+                return 'data:image/jpeg;base64,' . base64_encode($imgData);
+            }
+        ]);
+
+        // Mostrar el PDF en el navegador
+        return $pdf->stream('productos.pdf');
+    }
+
+
 
     public function import(Request $request)
     {
         $file = $request->file('documento');
         Excel::import(new Productoimport, $file);
         return back()->with('status', 'Productos importados con éxito');
+    }
+    public function export()
+    {
+        return Excel::download(new Productoexport(), 'productos.xlsx');
     }
 
     public function store(Request $request)

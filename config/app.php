@@ -70,7 +70,7 @@ return [
     |
     */
 
-   'timezone' => 'America/La_Paz',
+    'timezone' => 'America/La_Paz',
 
 
     /*
@@ -185,7 +185,9 @@ return [
     */
 
     'aliases' => Facade::defaultAliases()->merge([
+
         // 'Example' => App\Facades\Example::class,
     ])->toArray(),
+
 
 ];

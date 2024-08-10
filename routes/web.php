@@ -44,9 +44,12 @@ Route::middleware(['auth:sanctum', 'verified'])->group(function () {
     route::resource('usuarios', UsuariosController::class);
     route::resource('services', ServicesController::class);
 
-
-    route::resource('productos', ProductoController::class);
+    Route::get('productos/pdf', [ProductoController::class, 'exportPdf'])->name('productos.pdf');
     Route::post('productos/import', [ProductoController::class, 'import'])->name('productos.import');
+    Route::get('productos/export', [ProductoController::class, 'export'])->name('productos.export');
+    route::resource('productos', ProductoController::class);
+
+
 
     route::resource('clientes', ClienteController::class);
 

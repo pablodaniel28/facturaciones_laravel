@@ -18,7 +18,7 @@
                     </div>
                     <!-- Grupo 2: Exportar y importar -->
                     <div class="flex flex-2 items-center">
-                        <a href=""
+                        <a href="{{ route('productos.export') }}"
                             class="flex-shrink-0 bg-cyan-500 hover:bg-cyan-700 dark:bg-gray-700 dark:hover:bg-gray-600 text-white dark:text-gray-200 font-semibold px-1.5 py-1 rounded-md text-xs sm:text-xs ml-1 mr-1">
                             <i class="fas fa-plus mr-1"></i> Exportar
                         </a>
@@ -26,6 +26,11 @@
                             class="flex-shrink-0 bg-cyan-500 hover:bg-cyan-700 dark:bg-gray-700 dark:hover:bg-gray-600 text-white dark:text-gray-200 font-semibold px-1.5 py-1 rounded-md text-xs sm:text-xs ml-1 mr-1">
                             <i class="fas fa-plus mr-1"></i> Importar
                         </a>
+                        <a href="{{ route('productos.pdf') }}" target="_blank"
+                            class="flex-shrink-0 bg-cyan-500 hover:bg-cyan-700 dark:bg-gray-700 dark:hover:bg-gray-600 text-white dark:text-gray-200 font-semibold px-1.5 py-1 rounded-md text-xs sm:text-xs ml-1 mr-1">
+                            <i class="fas fa-plus mr-1"></i> PDF
+                        </a>
+
                     </div>
                 </div>
 
@@ -146,8 +151,8 @@
                             </div>
                             <!-- Modal body -->
                             <div class="mt-2">
-                                <form method="POST" action="{{route('productos.import')}}" enctype="multipart/form-data"
-                                    class="flex-shrink-0 ml-1 mb-4">
+                                <form method="POST" action="{{ route('productos.import') }}"
+                                    enctype="multipart/form-data" class="flex-shrink-0 ml-1 mb-4">
                                     @csrf
                                     <input type="file" name="documento"
                                         class="bg-cyan-500 hover:bg-cyan-700 dark:bg-slate-600 dark:hover:bg-slate-500 text-white dark:text-slate-200 font-semibold px-1.5 py-1 rounded-md text-xs sm:text-xs mb-4"
