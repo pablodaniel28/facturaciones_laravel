@@ -8,7 +8,7 @@
                     <!-- Grupo 1: Añadir, input de búsqueda y botón de búsqueda -->
                     <div class="flex flex-1 items-center mb-2 sm:mb-0">
                         <a id="modal-toggle-button"
-                            class="flex-shrink-0 bg-cyan-500 hover:bg-cyan-700 dark:bg-slate-700 dark:hover:bg-slate-600 text-white dark:text-gray-200 font-semibold px-1.5 py-1 rounded-md text-xs sm:text-xs ml-1 mr-1">
+                            class="flex-shrink-0 bg-cyan-500 hover:bg-blue-900 dark:bg-slate-700 dark:hover:bg-slate-600 text-white dark:text-gray-200 font-semibold px-1.5 py-1 rounded-md text-xs sm:text-xs ml-1 mr-1">
                             <i class="fas fa-plus mr-1"></i> Añadir
                         </a>
                         <input id="searchInput" type="text"
@@ -19,15 +19,15 @@
                     <!-- Grupo 2: Exportar y importar -->
                     <div class="flex flex-2 items-center">
                         <a href="{{ route('productos.export') }}"
-                            class="flex-shrink-0 bg-cyan-500 hover:bg-cyan-700 dark:bg-gray-700 dark:hover:bg-gray-600 text-white dark:text-gray-200 font-semibold px-1.5 py-1 rounded-md text-xs sm:text-xs ml-1 mr-1">
+                            class="flex-shrink-0 bg-cyan-500 hover:bg-blue-900 dark:bg-gray-700 dark:hover:bg-gray-600 text-white dark:text-gray-200 font-semibold px-1.5 py-1 rounded-md text-xs sm:text-xs ml-1 mr-1">
                             <i class="fas fa-file-excel mr-1"></i> Exportar
                         </a>
                         <a id="modal-toggle-button4"
-                            class="flex-shrink-0 bg-cyan-500 hover:bg-cyan-700 dark:bg-gray-700 dark:hover:bg-gray-600 text-white dark:text-gray-200 font-semibold px-1.5 py-1 rounded-md text-xs sm:text-xs ml-1 mr-1">
+                            class="flex-shrink-0 bg-cyan-500 hover:bg-blue-900 dark:bg-gray-700 dark:hover:bg-gray-600 text-white dark:text-gray-200 font-semibold px-1.5 py-1 rounded-md text-xs sm:text-xs ml-1 mr-1">
                             <i class="fas fa-file-excel mr-1"></i> Importar
                         </a>
                         <a href="{{ route('productos.pdf') }}" target="_blank"
-                            class="flex-shrink-0 bg-cyan-500 hover:bg-cyan-700 dark:bg-gray-700 dark:hover:bg-gray-600 text-white dark:text-gray-200 font-semibold px-1.5 py-1 rounded-md text-xs sm:text-xs ml-1 mr-1">
+                            class="flex-shrink-0 bg-cyan-500 hover:bg-blue-900 dark:bg-gray-700 dark:hover:bg-gray-600 text-white dark:text-gray-200 font-semibold px-1.5 py-1 rounded-md text-xs sm:text-xs ml-1 mr-1">
                             <i class="fas fa-file-pdf mr-1"></i> PDF
                         </a>
                     </div>
