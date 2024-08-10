@@ -13,9 +13,11 @@ return new class extends Migration
     {
         Schema::create('productos', function (Blueprint $table) {
             $table->id();
-            $table->string('name');
-            $table->float('price');
-            $table->integer('stock');
+            $table->string('nombre');
+            $table->string('img')->nullable();
+            $table->float('precio');
+            $table->integer('cantidad');
+            $table->string('estado');
             $table->timestamps();
         });
     }

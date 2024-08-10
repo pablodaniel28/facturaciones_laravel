@@ -15,17 +15,15 @@ class UsuariosSeeder extends Seeder
     {
         User::create([
             'name' => 'marcela',
-            'huella' => 'marcela123',
             'email' => 'marcela@gmail.com',
             'password' => Hash::make('12345678'), // Asegúrate de hashear las contraseñas
         ]);
 
         // Añade más usuarios si es necesario
         User::create([
-            'name' => 'jorge',
-            'huella' => 'jorge123',
-            'email' => 'jorge@example.com',
-            'password' => Hash::make('password'),
+            'name' => 'Daniel Castedo',
+            'email' => 'daniel@gmail.com',
+            'password' => Hash::make('12345678'),
         ]);
     }
 }
