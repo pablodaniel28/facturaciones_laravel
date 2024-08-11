@@ -11,10 +11,14 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('clientes', function (Blueprint $table) {
+        Schema::create('ventas', function (Blueprint $table) {
             $table->id();
-            $table->string('nombre');
-            $table->integer('celular');
+            $table->date('fecha');
+            $table->string('metodo');
+            $table->float('total');
+            $table->foreignId('cliente_id') // Clave foránea para la tabla clientes
+                ->constrained()
+                ->onDelete('cascade');
             $table->timestamps();
         });
     }
@@ -24,6 +28,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('clientes');
+        Schema::dropIfExists('ventas');
     }
 };

@@ -3,7 +3,7 @@
         <div
             class="col-span-full xl:col-span-6 bg-white dark:bg-slate-800 shadow-lg rounded-sm border border-slate-100 dark:border-slate-700">
             <header
-                class="px-5 py-4 border-b border-blue-100 dark:border-slate-900 flex flex-col sm:flex-row items-center">
+                class="px-5 py-4 border-b border-blue-50 dark:border-slate-900 flex flex-col sm:flex-row items-center">
                 <div class="flex flex-col sm:flex-row items-center">
                     <!-- Grupo 1: Añadir, input de búsqueda y botón de búsqueda -->
                     <div class="flex flex-1 items-center mb-2 sm:mb-0">
@@ -74,8 +74,10 @@
                                         <div>
                                             <label for="precio"
                                                 class="block text-sm font-medium text-gray-700 dark:text-gray-300">Precio</label>
-                                            <input type="number" name="precio" id="precio"
-                                                class="p-2 block w-full shadow-sm focus:ring-indigo-500 focus:border-indigo-500 border-gray-300 dark:border-gray-600 dark:bg-gray-800 dark:text-white rounded-md">
+                                            <input type="number" name="precio" id="precio" step="0.01"
+                                                class="p-2 block w-full shadow-sm focus:ring-indigo-500 focus:border-indigo-500 border-gray-300 dark:border-gray-600 dark:bg-gray-800 dark:text-white rounded-md"
+                                                placeholder="Introduzca el precio">
+
                                         </div>
                                         <div>
                                             <label for="cantidad"
@@ -171,10 +173,11 @@
                 <!-- Table -->
                 <div class="overflow-x-auto">
                     <table class="table-auto w-full">
-                        <span class="font-semibold text-slate-500 dark:text-slate-50">Productos</span>
+                        <h1 class="text-xs text-center font-semibold text-slate-500 dark:text-slate-300 mb-2">PRODUCTOS
+                        </h1>
                         <!-- Table header -->
                         <thead
-                            class="text-xs font-semibold uppercase text-slate-400 dark:text-slate-100 bg-slate-50 dark:bg-slate-700 dark:bg-opacity-50">
+                            class="text-xs font-semibold uppercase text-slate-400 dark:text-slate-400 bg-slate-50 dark:bg-slate-700 dark:bg-opacity-50">
                             <tr>
                                 <th class="p-2 whitespace-nowrap">
                                     <div class="font-semibold text-left">Nro</div>
@@ -285,7 +288,6 @@
 
     @push('scripts')
         <script>
-
             function searchTable() {
                 var input, filter, table, tbody, tr, td, i, j, txtValue;
                 input = document.getElementById("searchInput");
@@ -309,8 +311,6 @@
                     }
                 }
             }
-
-
         </script>
 
         <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css" rel="stylesheet">

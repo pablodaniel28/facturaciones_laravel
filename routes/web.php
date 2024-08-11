@@ -6,6 +6,7 @@ use App\Http\Controllers\ComentarioController;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\DataFeedController;
 use App\Http\Controllers\DashboardController;
+use App\Http\Controllers\DetalleventasController;
 use App\Http\Controllers\DocenteController;
 use App\Http\Controllers\GrupoController;
 use App\Http\Controllers\UsuariosController;
@@ -14,6 +15,7 @@ use App\Http\Controllers\MateriaController;
 use App\Http\Controllers\ProductoController;
 use App\Http\Controllers\ServicesController;
 use App\Http\Controllers\UsuarioHorarioController;
+use App\Http\Controllers\VentasController;
 use App\Http\Controllers\verificarController;
 use App\Models\Asistencia;
 use App\Models\producto;
@@ -48,6 +50,15 @@ Route::middleware(['auth:sanctum', 'verified'])->group(function () {
     Route::post('productos/import', [ProductoController::class, 'import'])->name('productos.import');
     Route::get('productos/export', [ProductoController::class, 'export'])->name('productos.export');
     route::resource('productos', ProductoController::class);
+    route::resource('ventas', VentasController::class);
+
+    Route::get('ventas/{id}/detalleventas', [DetalleventasController::class, 'index2'])->name('detalleventas.index2');
+    Route::post('detalleventas/store2', [DetalleventasController::class, 'store2'])->name('detalleventas.store2');
+
+
+
+
+    route::resource('detalleventas', DetalleventasController::class);
 
 
 

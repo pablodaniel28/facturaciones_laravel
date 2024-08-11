@@ -8,4 +8,12 @@ use Illuminate\Database\Eloquent\Model;
 class cliente extends Model
 {
     use HasFactory;
+    protected $fillable = [
+        'nombre',
+        'celular',
+    ];
+    public function ventas()
+    {
+        return $this->belongsTo(Ventas::class, 'cliente_id');
+    }
 }
