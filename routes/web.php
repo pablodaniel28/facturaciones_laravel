@@ -54,11 +54,10 @@ Route::middleware(['auth:sanctum', 'verified'])->group(function () {
 
     Route::get('ventas/{id}/detalleventas', [DetalleventasController::class, 'index2'])->name('detalleventas.index2');
     Route::post('detalleventas/store2', [DetalleventasController::class, 'store2'])->name('detalleventas.store2');
+    Route::post('/detalleventas/store3', [DetalleVentasController::class, 'store3'])->name('detalleventas.store3');
+    // Archivo routes/web.php
+    Route::delete('detalleventas/{detalle_id}', [DetalleventasController::class, 'destroy2'])->name('detalleventas.destroy2');
 
-
-
-
-    route::resource('detalleventas', DetalleventasController::class);
 
 
 

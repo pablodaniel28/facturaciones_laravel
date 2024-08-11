@@ -69,33 +69,20 @@
                             <ul class="pl-8 mt-1 @if (!in_array(Request::segment(1), ['dashboard'])) {{ 'hidden' }} @endif"
                                 :class="open ? '!block' : 'hidden'">
                                 <li class="mb-1 last:mb-0">
-                                    <a class="block text-gray-500/90 dark:text-gray-400 hover:text-gray-700 dark:hover:text-gray-200 transition truncate @if (Route::is('dashboard')) {{ '!text-violet-500' }} @endif"
+                                    <a class="block text-gray-100 dark:text-gray-100 hover:text-blue-400 dark:hover:text-gray-200 transition truncate @if (Route::is('dashboard')) {{ '!text-violet-500' }} @endif"
                                         href="{{ route('dashboard') }}">
                                         <span
                                             class="text-sm font-medium lg:opacity-0 lg:sidebar-expanded:opacity-100 2xl:opacity-100 duration-200">Main</span>
                                     </a>
                                 </li>
-                                <li class="mb-1 last:mb-0">
-                                    <a class="block text-gray-100/90 dark:text-gray-400 hover:text-gray-700 dark:hover:text-gray-200 transition truncate @if (Route::is('analytics')) {{ '!text-violet-500' }} @endif"
-                                        href="{{ route('analytics') }}">
-                                        <span
-                                            class="text-sm font-medium lg:opacity-0 lg:sidebar-expanded:opacity-100 2xl:opacity-100 duration-200">Analytics</span>
-                                    </a>
-                                </li>
-                                <li class="mb-1 last:mb-0">
-                                    <a class="block text-gray-500/90 dark:text-gray-400 hover:text-gray-700 dark:hover:text-gray-200 transition truncate @if (Route::is('fintech')) {{ '!text-violet-500' }} @endif"
-                                        href="{{ route('fintech') }}">
-                                        <span
-                                            class="text-sm font-medium lg:opacity-0 lg:sidebar-expanded:opacity-100 2xl:opacity-100 duration-200">Fintech</span>
-                                    </a>
-                                </li>
+
                             </ul>
                         </div>
                     </li>
                     <!-- Calendar -->
                     <li
                         class="pl-4 pr-3 py-2 rounded-lg mb-0.5 last:mb-0 bg-[linear-gradient(135deg,var(--tw-gradient-stops))] @if (in_array(Request::segment(1), ['calendar'])) {{ 'from-violet-500/[0.12] dark:from-violet-500/[0.24] to-violet-500/[0.04]' }} @endif">
-                        <a class="block text-gray-800 dark:text-gray-100 truncate transition @if (!in_array(Request::segment(1), ['calendar'])) {{ 'hover:text-gray-900 dark:hover:text-white' }} @endif"
+                        <a class="block text-gray-100 dark:text-gray-100 truncate transition @if (!in_array(Request::segment(1), ['calendar'])) {{ 'hover:text-gray-100 dark:hover:text-white' }} @endif"
                             href="">
                             <div class="flex items-center">
                                 <svg class="shrink-0 fill-current @if (in_array(Request::segment(1), ['calendar'])) {{ 'text-violet-500' }}@else{{ 'text-gray-400 dark:text-gray-500' }} @endif"

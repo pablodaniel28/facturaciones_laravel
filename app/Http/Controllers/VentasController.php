@@ -44,6 +44,7 @@ class VentasController extends Controller
             'cantidad' => 'required|integer|min:1',
             'producto_id' => 'required|exists:productos,id',
         ]);
+
         $cliente = cliente::where('celular', $validated['celular'])->first();
 
         if (!$cliente) {
@@ -54,6 +55,7 @@ class VentasController extends Controller
             ]);
         }
 
+        // Crear la venta
         $venta = ventas::create([
             'fecha' => now(), // O la fecha actual, o una proporcionada en el formulario
             'metodo' => $validated['metodo'],
@@ -63,6 +65,15 @@ class VentasController extends Controller
 
         // Obtener el producto
         $producto = producto::find($validated['producto_id']);
+
+        if (!$producto) {
+            return redirect()->back()->with('error', 'Producto no encontrado.');
+        }
+
+        // Verificar si hay suficiente cantidad del producto
+        if ($producto->cantidad < $validated['cantidad']) {
+            return redirect()->back()->with('error', 'Cantidad insuficiente de producto.');
+        }
 
         // Calcular el total
         $totalProducto = $producto->precio * $validated['cantidad'];
@@ -80,9 +91,14 @@ class VentasController extends Controller
         // Actualizar el total de la venta
         $venta->update(['total' => $totalConDescuento]);
 
+        // Reducir la cantidad del producto en inventario
+        $producto->cantidad -= $validated['cantidad'];
+        $producto->save();
+    
         // Redirigir con un mensaje de éxito
         return redirect()->route('detalleventas.index2', ['id' => $venta->id])->with('success', 'Venta realizada con éxito.');
     }
+
 
     /**
      * Display the specified resource.

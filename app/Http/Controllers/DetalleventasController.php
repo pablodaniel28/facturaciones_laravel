@@ -40,10 +40,7 @@ class DetalleventasController extends Controller
     /**
      * Store a newly created resource in storage.
      */
-    public function store(Request $request)
-    {
-
-    }
+    public function store(Request $request) {}
 
     public function store2(Request $request)
     {
@@ -59,6 +56,15 @@ class DetalleventasController extends Controller
 
         // Obtener el producto
         $producto = producto::find($validated['producto_id']);
+
+        if (!$producto) {
+            return redirect()->back()->with('error', 'Producto no encontrado.');
+        }
+
+        // Verificar si hay suficiente cantidad del producto
+        if ($producto->cantidad < $validated['cantidad']) {
+            return redirect()->back()->with('error', 'Cantidad insuficiente de producto.');
+        }
 
         // Calcular el total
         $totalProducto = $producto->precio * $validated['cantidad'];
@@ -76,15 +82,89 @@ class DetalleventasController extends Controller
         // Obtener la venta
         $venta = ventas::find($validated['venta_id']);
 
+        if (!$venta) {
+            return redirect()->back()->with('error', 'Venta no encontrada.');
+        }
+
         // Calcular el total acumulado
         $totalVenta = $venta->detalles->sum('monto');
 
         // Actualizar el total de la venta
         $venta->update(['total' => $totalVenta]);
 
+        // Reducir la cantidad del producto en inventario
+        $producto->cantidad -= $validated['cantidad'];
+        $producto->save();
+
         // Redirigir con un mensaje de éxito
         return redirect()->route('detalleventas.index2', ['id' => $validated['venta_id']])->with('success', 'Detalle de venta añadido con éxito.');
     }
+
+
+    public function store3(Request $request)
+    {
+        // Validar los datos del formulario
+        $validated = $request->validate([
+            'cantidad.*' => 'required|integer|min:1',
+            'descuento.*' => 'nullable|numeric',
+            'venta_id' => 'required|exists:ventas,id',
+        ]);
+
+        // Obtener la venta
+        $venta = ventas::find($validated['venta_id']);
+
+        if (!$venta) {
+            return redirect()->back()->with('error', 'Venta no encontrada.');
+        }
+
+        // Actualizar cada detalle de la venta
+        foreach ($validated['cantidad'] as $detalle_id => $cantidad) {
+            // Buscar el detalle de la venta por ID de Detalleventas
+            $detalle = Detalleventas::find($detalle_id);
+
+            if ($detalle && $detalle->venta_id == $venta->id) {
+                // Obtener el producto asociado
+                $producto = $detalle->producto;
+
+                if (!$producto) {
+                    return redirect()->back()->with('error', 'Producto no encontrado.');
+                }
+
+                // Obtener la cantidad anterior del detalle
+                $cantidadAnterior = $detalle->cantidad;
+
+                // Calcular el total
+                $totalProducto = $producto->precio * $cantidad;
+                $totalConDescuento = $totalProducto - ($validated['descuento'][$detalle_id] ?? 0);
+
+                // Actualizar el detalle de la venta
+                $detalle->update([
+                    'cantidad' => $cantidad,
+                    'descuento' => $validated['descuento'][$detalle_id] ?? 0,
+                    'monto' => $totalConDescuento,
+                ]);
+
+                // Ajustar la cantidad del producto en el inventario
+                // Aumentar la cantidad de producto por la cantidad anterior que ya no está en uso
+                $producto->cantidad += $cantidadAnterior;
+                // Reducir la cantidad del producto por la nueva cantidad
+                $producto->cantidad -= $cantidad;
+                $producto->save();
+            }
+        }
+
+        // Recalcular el total de la venta
+        $totalVenta = $venta->detalles->sum('monto');
+        $venta->update(['total' => $totalVenta]);
+
+        // Redirigir con un mensaje de éxito
+        return redirect()->route('detalleventas.index2', ['id' => $venta->id])->with('success', 'Detalles de venta actualizados con éxito.');
+    }
+
+
+
+
+
 
 
 
@@ -115,8 +195,42 @@ class DetalleventasController extends Controller
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy(Detalleventas $detalleventas)
+    public function destroy(Detalleventas $detalle) {}
+
+    public function destroy2($detalle_id)
     {
-        //
+        // Encontrar el detalle de la venta por su ID
+        $detalle = Detalleventas::find($detalle_id);
+
+        if (!$detalle) {
+            return redirect()->back()->with('error', 'Detalle de venta no encontrado.');
+        }
+
+        // Encontrar el producto asociado
+        $producto = Producto::find($detalle->producto_id);
+
+        if (!$producto) {
+            return redirect()->back()->with('error', 'Producto no encontrado.');
+        }
+
+        // Aumentar la cantidad del producto en el inventario
+        $producto->cantidad += $detalle->cantidad;
+        $producto->save();
+
+        // Eliminar el detalle de la venta
+        $detalle->delete();
+
+        // Actualizar el total de la venta
+        $venta = ventas::find($detalle->venta_id);
+
+        if ($venta) {
+            // Recalcular el total de la venta
+            $venta->total -= $detalle->monto;  // Suponiendo que $detalle->monto es el monto total del detalle
+            $venta->save();
+        }
+
+        // Redirigir a la vista de detalles de la venta (ajusta según tu ruta)
+        return redirect()->route('detalleventas.index2', ['id' => $detalle->venta_id])
+            ->with('success', 'Detalle de venta eliminado con éxito.');
     }
 }
